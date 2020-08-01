@@ -8,6 +8,21 @@ from ast import literal_eval
 # Load world
 world = World()
 
+class Stack():
+    def __init__(self):
+        self.stack = []
+    
+    def push(self, value):
+        self.stack.append(value)
+    
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+
+    def size(self):
+        return len(self.stack)
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
@@ -28,6 +43,12 @@ player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
+
+stack = Stack()
+visited = set()
+while len(visited) < len(world.rooms):
+    exits = player.current_room.get_exits()
+    path = []
 
 
 
