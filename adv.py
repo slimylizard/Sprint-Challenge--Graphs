@@ -44,12 +44,41 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
+def paths(direction):
+    if direction == 'n':
+        return 's'
+    elif direction == 's':
+        return 'n'
+    elif direction == 'w':
+        return 'e'
+    elif direction == 'e':
+        return 'w'
+
 stack = Stack()
 visited = set()
+
 while len(visited) < len(world.rooms):
     exits = player.current_room.get_exits()
+    #print('Room:', player.current_room)
+    #print('exits are', exits)
     path = []
-
+    for e in exits:
+        if e is not None and player.current_room.get_room_in_direction(e) not in visited:
+            path.append(e)
+    #       print("path", path)
+    
+    visited.add(player.current_room)
+    if len(path) > 0:
+        move = random.randint(0, len(path) - 1)
+        stack.push(path[move])
+        player.travel(path[move])
+        traversal_path.append(path[move])
+    #   print('more rooms to explore')
+    else:
+        end = stack.pop()
+        player.travel(paths(end))
+        traversal_path.append(paths(end))
+    #   print('this is the end og this path')
 
 
 # TRAVERSAL TEST - DO NOT MODIFY
